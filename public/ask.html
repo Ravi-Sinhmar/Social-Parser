@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question</title>
+   <link rel="stylesheet" href="./output.css">
+</head>
+<body>
+    <div class="flex w-full justify-center items-center text-xl font-semibold py-4">
+        <h1>NIA Case Solver</h1>
+    </div>
+<div class=" py-4 px-6 w-dvw  flex flex-col gap-5" >
+<h3 class="text-blt">Write you question bellow</h3>
+    <input id="getQues" class="ring-1 ring-blt px-1 py-2 rounded-md bg-blb text-blt" name="question" placeholder="Enter your question" type="text">
+<div class="flex flex-col gap-1">
+ <h3 class="text-blt">Answer</h3>
+    <div class="px-2 pb-3 pt-1 ring-1 ring-blt rounded-md text-gray-800"><p id="aiAns">
+    Your Answer will appear here...
+    </p>
+</div>
+</div>
+<button id="sendQues" class="bg-blf px-4 py-1 rounded-md text-lg text-blm" type="button">Get Answer</button>
+</div>
+<script>
+const sendQues = document.getElementById('sendQues');
+const getQues = document.getElementById('getQues');
+const aiAns = document.getElementById('aiAns');
+sendQues.addEventListener('click',(event)=>{
+event.preventDefault();
+const content = {question:getQues.value}
+fetch(`/question`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(content),
+      })
+        .then((data) => data.json())
+        .then((data) => {
+          if (data.status === "success") {
+        
+          aiAns.innerText = data.data.answer;
+          console.log(data.data.answer);
+          }
+         else if (data.status === "fail") {
+ 
+          }
+        })
+        .catch((err) => console.log(err));
+});
+
+
+</script>
+</body>
+</html>
