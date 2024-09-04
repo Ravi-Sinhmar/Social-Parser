@@ -6,17 +6,17 @@ require('dotenv').config();
 const bodyParser = require('body-parser');
 const getAnswer= require('./aiModules/question');
 
-
 // Middlewares
-// For URL-encoded data
 app.use(express.urlencoded({ extended: false }));
-// For JSON data
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Home
 app.get('/',(req,res)=>{
 res.status(200).sendFile(__dirname + "/public/ask.html");
-
 });
+
+// Post question to AI
 app.post("/question",async(req,res)=>{
     const {question} = req.body;
     console.log(question);
@@ -28,7 +28,8 @@ app.post("/question",async(req,res)=>{
 });
 
 
-
-app.listen(5000, ()=>{
-    console.log("server is listening on port 5000");
+// Server setup
+const port = process.env.port
+app.listen(port, ()=>{
+    console.log(`server is listening on port ${port}`);
 });
